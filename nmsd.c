@@ -71,6 +71,51 @@ double ee1(double t, double *x, double dt)
     x[1] += f[1] * dt;
 }
 
+// Runge-Kutta (4th order)
+void rk4(double t, double *x, double dt)
+{
+    double f[2];
+
+    double k10, k11;
+    double k20, k21;
+    double k30, k31;
+    double k40, k41;
+
+    double xk[2];
+
+    // k1
+    msd(t, x, f);
+    k10 = dt * f[0];
+    k11 = dt * f[1];
+
+    // k2
+    xk[0] = x[0] + dt*k10/2;
+    xk[1] = x[1] + dt*k11/2;
+
+    msd(t + dt/2, xk, f);
+    k20 = dt * f[0];
+    k21 = dt * f[1];
+
+    // k3
+    xk[0] = x[0] + dt*k20/2;
+    xk[1] = x[1] + dt*k21/2;
+
+    msd(t + dt/2, xk, f);
+    k30 = dt * f[0];
+    k31 = dt * f[1];
+
+    // k4
+    xk[0] = x[0] + dt*k30;
+    xk[1] = x[1] + dt*k31;
+
+    msd(t + dt, xk, f);
+    k40 = dt * f[0];
+    k41 = dt * f[1];
+
+    x[0] += k10/6 + k20/3 + k30/3 + k40/6;
+    x[1] += k11/6 + k21/3 + k31/3 + k41/6;
+}
+
 // Velocity Verlet (2nd order)
 double vv2(double t, double *x, double dt)
 {
@@ -96,13 +141,16 @@ double vv2(double t, double *x, double dt)
 int main(void)
 {
     FILE *ffixed;
-    double xee[2], xvv[2];
+    double xee[2], xvv[2], xrk[2];
 
     xee[0] = x0;
     xee[1] = v0;
 
     xvv[0] = x0;
     xvv[1] = v0;
+
+    xrk[0] = x0;
+    xrk[1] = v0;
 
     ffixed = fopen("fixed.csv", "w");
     assert(ffixed);
@@ -112,13 +160,16 @@ int main(void)
         double a = an(t);
         double eee = fabs(a - xee[0]);
         double evv = fabs(a - xvv[0]);
+        double erk = fabs(a - xrk[0]);
 
         fprintf(ffixed, "%G; %G;", t, a);
         fprintf(ffixed, "%G; %G;", xee[0], eee);
-        fprintf(ffixed, "%G; %G\n", xvv[0], evv);
+        fprintf(ffixed, "%G; %G;", xvv[0], evv);
+        fprintf(ffixed, "%G; %G\n", xrk[0], erk);
 
         ee1(t, xee, dt);
         vv2(t, xvv, dt);
+        rk4(t, xrk, dt);
     }
 
     fclose(ffixed);

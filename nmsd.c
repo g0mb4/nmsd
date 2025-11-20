@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #define MAX(a,b)    (a) > (b) ? (a) : (b)
+#define MIN(a,b)    (a) < (b) ? (a) : (b)
 
 const double m = 1;
 const double k = 1;
@@ -213,6 +214,12 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     double k60, k61;
     double k70, k71;
 
+    // starting step estimation
+    double d0, d1, d2;
+    double dt0, dt1;
+    double xf1[2];
+    double f0[2], f1[2];
+
     // automatic step size control
     double dt = *dtinit;
     double dtopt = 0;
@@ -221,9 +228,34 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     double err;
     double frac = 0.9;  // practical value
 
-    // TODO: initial step estimation
+    // starting step estimation
     if (dt == 0) {
-        dt = 0.1;
+        msd(*t, x, f0);
+
+        d0 = sqrt(x[0]*x[0] + x[1]*x[1]);
+        d1 = sqrt(f0[0]*f0[0] + f0[1]*f0[1]);
+
+        if (d0 < 1e-5 || d1 < 1e-5)
+            dt0 = 1e-6;
+        else
+            dt0 = 0.01 * (d0/d1);
+
+        xf1[0] = x[0] + dt0 * f0[0];
+        xf1[1] = x[1] + dt0 * f0[1];
+
+        msd(*t + dt0, xf1, f1);
+
+        d2 = sqrt(
+            ((f1[0]-f0[0]) * (f1[0]-f0[0]))
+          + ((f1[1]-f0[1]) * (f1[1]-f0[1]))
+        );
+
+        if (MAX(d1, d2) <= 1e-15)
+            dt1 = MAX(1e-6, dt0*1e-3);
+        else
+            dt1 = pow(0.01 / MAX(d1, d2),1/5.0);
+
+        dt = MIN(100*dt0, dt1);
     }
 
     for (int tries = 0; tries < 100; ++tries) {

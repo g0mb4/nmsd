@@ -9,6 +9,18 @@ cc nmsd.c -o nmsd -lm
 ./nmsd && gnuplot -p nmsd.plt
 ```
 
+> [!WARNING]
+> This document lacks many important details. Its purpose is to lay down the basic ideas.
+> To fully understand the presented material, the suggested papers/books must be studied.
+
+## Implementation
+
+The choice of the "cryptic," old style is deliberate. It serves three purposes:
+
++ C is an old but easy-to-learn language that can be compiled even on embedded systems. It is an efficient language, meaning it is favorable for numerical methods and it does not hide the implementation details.
++ Declaring the variables at the top of the function makes the algorithms less noisy, in my opinion.
++ The cryptic variable names prepare the reader: many numerical methods have an old C/FORTRAN implementation that can be very useful to study, but they use the same "cryptic" style becouse of the limitations of their time.
+  
 ## Explanation
 
 The mass-spring-damper model describes a 1-degree-of-freedom mechanical system consisting of a mass, a spring and a damper.

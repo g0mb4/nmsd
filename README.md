@@ -8,3 +8,49 @@ Numerical solutions of the mass-spring-damper model.
 cc nmsd.c -o nmsd -lm
 ./nmsd && gnuplot -p nmsd.plt
 ```
+
+## Explanation
+
+The mass-spring-damper model describes a 1-degree-of-freedom mechanical system consisting of a mass, a spring and a damper.
+The equation of the motion of the unforced system:
+```math
+m\ddot{x} + k\dot{x} + cx = 0
+```
+where $m$ is the **mass** $k$ is the **damping coefficient** and $c$ is the **stiffness of the spring**. To solve this equation, we have to find the $x(t)$ **displacement from the equilibrium position**.
+
+The governing equation is a **2nd order linear homogeneous differential equation with constant coefficients**.
+There are many ways to solve this equation numerically, some of those will be presented in this document and their implementation can be found in the accompanying *nmsd.c* file.
+
+### Analytical Solution
+
+We can solve this equation analytically, this will be the base-line for the comparison of different numerical methods.
+
+Let's introduce $\beta = \frac{k}{m}$ and the **squared natural frequency** $\omega^2 = \frac{c}{m}$ and assume that the solution $x(t)$ is in a form of $e^{\lambda t}$.
+We can rewrite the equation:
+```math
+\lambda^2 e^{\lambda t} + \beta \lambda e^{\lambda t} + \omega^2 e^{\lambda t} = 0
+```
+after regrouping we get:
+```math
+\left( \lambda^2 + \beta \lambda + \omega^2 \right) e^{\lambda t} = 0
+```
+since $e^{\lambda t}$ cannot be $0$, we can divide by it to arrive to the **characteristic equation**:
+```math
+\lambda^2 + \beta \lambda + \omega^2 = 0
+```
+which is a **quadratic equation**. To solve it we can use the **quadratic formula**:
+```math
+\lambda_{1,2} = \frac {-\beta \pm \sqrt{\beta^2 - 4 \omega^2}}{2}
+```
+Since the original equation is **linear**, the general solution:
+```math
+x(t) = c_1 e^{\lambda_1 t} + c_2 e^{\lambda_2 t}
+```
+The $c_1$ and $c_2$ constants can be determined from the **initial conditions** which are the $x_0$ **initial position** and the $v_0$ **initial velocity**:
+```math
+x(t=0) = x_0 = c_1 + c_2
+```
+```math
+\dot{x}(t=0) = v_0 =  c_1 \lambda_1 + c_2 \lambda_2
+```
+

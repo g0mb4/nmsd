@@ -254,7 +254,7 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
         if (MAX(d1, d2) <= 1e-15)
             dt1 = MAX(1e-6, dt0*1e-3);
         else
-            dt1 = pow(0.01 / MAX(d1, d2),1/5.0);
+            dt1 = pow(0.01 / MAX(d1, d2), 1/6.0);
 
         dt = MIN(100*dt0, dt1);
     }

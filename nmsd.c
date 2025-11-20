@@ -37,25 +37,26 @@ double an(double t)
     // Z = k/m, O2 = c/m
     //
     // x'' + Zx' + O2x = 0
-    // L^2 exp(Lt) + Z L exp(L t) + O2 exp(L t) = 0
+    // L^2 exp(L t) + Z L exp(L t) + O2 exp(L t) = 0
     //
     // characteristic equ:
     // L^2 + Z L + O2 = 0
     //
-    // L1,2 = (-Z +- sqrt(Z^2-4 O2)) / 2
+    // L1,2 = (-Z +- sqrt(Z^2 - 4 O2)) / 2
     //
     // x(t) = c1 exp(L1 t) + c2 exp(L2 t)
-    // x0 = c1 + c2
-    // v0 = c1 L1 + c2 L2
+    // x(0) = x0 = c1 + c2
+    // x'(0) = v0 = c1 L1 + c2 L2
 
     static const double Z = k/m;
     static const double O2 = c/m;
 
-    static const double disc = Z*Z - 4 * O2;
-    assert(disc >= 0);
+    static const double D = Z*Z - 4 * O2;
+    // assume real solutions
+    assert(D >= 0);
 
-    const double L1 = (-Z + sqrt(disc))/2;
-    const double L2 = (-Z - sqrt(disc))/2;
+    const double L1 = (-Z + sqrt(D))/2;
+    const double L2 = (-Z - sqrt(D))/2;
 
     const double c2 = (v0 - x0 * L1) / (-L1 + L2);
     const double c1 = x0 - c2;
@@ -223,10 +224,10 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     // automatic step size control
     double dt = *dtinit;
     double dtopt = 0;
-    double atol = rtol / 1000.0;    // practical value
+    const double atol = rtol / 1000.0;    // practical value
     double sc[2];
     double err;
-    double frac = 0.9;  // practical value
+    const double frac = 0.9;  // practical value
 
     // starting step estimation
     if (dt == 0) {
@@ -258,6 +259,7 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
         dt = MIN(100*dt0, dt1);
     }
 
+    // to be sure
     for (int tries = 0; tries < 100; ++tries) {
         // k1
         msd(*t, x, f);

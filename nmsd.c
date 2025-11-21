@@ -5,12 +5,12 @@
 #define MAX(a,b)    (a) > (b) ? (a) : (b)
 #define MIN(a,b)    (a) < (b) ? (a) : (b)
 
-const double m = 1;
-const double k = 1;
-const double c = 0.1;
+const double m = 1;     // mass, kg
+const double k = 1;     // damping coefficient, Ns/m
+const double c = 0.1;   // stiffness of the spring, N/m
 
-const double x0 = 0;
-const double v0 = 1;
+const double x0 = 0;    // initial displacement, m
+const double v0 = 1;    // initial velocity, m/s
 
 // mass-spring-damper
 void msd(double t, double *x, double *f)
@@ -45,6 +45,8 @@ double an(double t)
     // L1,2 = (-B +- sqrt(B^2 - 4 O2)) / 2
     //
     // x(t) = c1 exp(L1 t) + c2 exp(L2 t)
+    //
+    // free constants from initial conditions:
     // x(0) = x0 = c1 + c2
     // x'(0) = v0 = c1 L1 + c2 L2
 
@@ -71,8 +73,8 @@ double ee1(double t, double *x, double dt)
 
     msd(t, x, f);
 
-    x[0] += f[0] * dt;
-    x[1] += f[1] * dt;
+    x[0] += dt * f[0];
+    x[1] += dt * f[1];
 }
 
 // Runge-Kutta (4th order)
@@ -363,6 +365,14 @@ int main(void)
     FILE *ffixed, *fdp54;
     double xee[2], xvv[2], xrk[2], xdp[2];
 
+    double a;
+    double eee, evv, erk, edp;
+
+    double dt = 0.1;
+    double tend = 10;
+    double dtdp54 = 0;
+    double rtol = 6e-7;
+
     xee[0] = x0;
     xee[1] = v0;
 
@@ -381,13 +391,11 @@ int main(void)
     fdp54 = fopen("dp54.csv", "w");
     assert(ffixed);
 
-    double dt = 0.1;
-    double tend = 10;
     for (double t = 0; t <= tend; t += dt) {
-        double a = an(t);
-        double eee = fabs(a - xee[0]);
-        double evv = fabs(a - xvv[0]);
-        double erk = fabs(a - xrk[0]);
+        a = an(t);
+        eee = fabs(a - xee[0]);
+        evv = fabs(a - xvv[0]);
+        erk = fabs(a - xrk[0]);
 
         fprintf(ffixed, "%G; %G;", t, a);
         fprintf(ffixed, "%G; %G;", xee[0], eee);
@@ -399,15 +407,14 @@ int main(void)
         rk4(t, xrk, dt);
     }
 
-    double dtdp54 = 0;
     for (double t = 0; t <= tend;) {
-        double a = an(t);
-        double edp = fabs(a - xdp[0]);
+        a = an(t);
+        edp = fabs(a - xdp[0]);
 
         fprintf(fdp54, "%G; %G; %G; %G\n",
                         t, a, xdp[0], edp);
 
-        dp54(&t, xdp, 1e-6, &dtdp54);
+        dp54(&t, xdp, rtol, &dtdp54);
     }
 
     fclose(ffixed);

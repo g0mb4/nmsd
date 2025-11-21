@@ -19,7 +19,7 @@ The choice of the "cryptic," old style is deliberate. It serves three purposes:
 
 + C is an old but easy-to-learn language that can be compiled even on embedded systems. It is an efficient language, meaning it is favorable for numerical methods and it does not hide the implementation details.
 + Declaring the variables at the top of the function makes the algorithms less noisy, in my opinion.
-+ The cryptic variable names prepare the reader: many numerical methods have an old C/FORTRAN implementation that can be very useful to study, but they use the same "cryptic" style becouse of the limitations of their time.
++ The cryptic variable names prepare the reader: many numerical methods have an old C/FORTRAN implementation that can be very useful to study, but they use the same "cryptic" style because of the limitations of their time.
 
 > [!WARNING]
 > The implementation of the methods is **not** general. They are capable of solving **only a second order differential equation**,
@@ -35,9 +35,9 @@ m\ddot{x} + k\dot{x} + cx = 0
 where $m$ is the **mass** $k$ is the **damping coefficient** and $c$ is the **stiffness of the spring**. To solve this equation, we have to find the $x(t)$ **displacement from the equilibrium position**.
 
 The governing equation is a **2nd order linear homogeneous differential equation with constant coefficients**.
-There are many ways to solve this equation numerically, some of those will be presented in this document and their implementation can be found in the accompanying *nmsd.c* file.
+There are many ways to solve this equation numerically, only a few selected will be presented in this document and their implementation can be found in the accompanying *nmsd.c* file.
 
-### Analytical Solution
+### Analytical Solution (`an()`)
 
 We can solve this equation analytically, this will be the base-line for the comparison of different numerical methods.
 
@@ -69,4 +69,12 @@ x(t=0) = x_0 = c_1 + c_2
 ```math
 \dot{x}(t=0) = v_0 =  c_1 \lambda_1 + c_2 \lambda_2
 ```
+
+### Explicit Eluer method (`ee1()`)
+
+### Classical Runge-Kutta method (`rk4()`)
+
+### Velocity Verlet method (`vv2()`)
+
+### Dormand–Prince method (`dp54()`)
 

@@ -70,6 +70,14 @@ x(t=0) = x_0 = c_1 + c_2
 \dot{x}(t=0) = v_0 =  c_1 \lambda_1 + c_2 \lambda_2
 ```
 
+> [!NOTE]
+> Suggested material:
+> 
+> Boyce W.E., DiPrima R.C., Meade D.B.: Elementary Differential Equations and Boundary Value Problems,
+> ISBN 978-1-119-37792-4
+>
+> Chapter 3: Second-Order Linear Differential Equations
+
 ### Explicit Eluer method (`ee1()`)
 
 ### Classical Runge-Kutta method (`rk4()`)

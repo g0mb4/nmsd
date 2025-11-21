@@ -77,7 +77,7 @@ x(t=0) = x_0 = c_1 + c_2
 > ISBN 978-1-119-37792-4
 >  + Chapter 3: Second-Order Linear Differential Equations
 >
-> Thomson W.T: Theory of Vibration with Applications, ISBN 0-7487-4380-4    
+> Thomson W.T.: Theory of Vibration with Applications, ISBN 0-7487-4380-4    
 >  + Chapter 2.6: Viscously Damped Free Vibration
 
 ### Explicit Eluer method (`ee1()`)

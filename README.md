@@ -20,6 +20,10 @@ The choice of the "cryptic," old style is deliberate. It serves three purposes:
 + C is an old but easy-to-learn language that can be compiled even on embedded systems. It is an efficient language, meaning it is favorable for numerical methods and it does not hide the implementation details.
 + Declaring the variables at the top of the function makes the algorithms less noisy, in my opinion.
 + The cryptic variable names prepare the reader: many numerical methods have an old C/FORTRAN implementation that can be very useful to study, but they use the same "cryptic" style becouse of the limitations of their time.
+
+> [!WARNING]
+> The implementation of the methods is **not** general. They are capable of solving **only a second order differential equation**,
+> but they can be easily modified to extend their capabilities.
   
 ## Explanation
 

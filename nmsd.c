@@ -32,33 +32,15 @@ void msd(double t, double *x, double *f)
 // Analitic solution
 double an(double t)
 {
-    // mx'' + kx' + cx = 0
-    //
-    // B = k/m, O2 = c/m
-    //
-    // x'' + Bx' + O2x = 0
-    // L^2 exp(L t) + B L exp(L t) + O2 exp(L t) = 0
-    //
-    // characteristic equ:
-    // L^2 + B L + O2 = 0
-    //
-    // L1,2 = (-B +- sqrt(B^2 - 4 O2)) / 2
-    //
-    // x(t) = c1 exp(L1 t) + c2 exp(L2 t)
-    //
-    // free constants from initial conditions:
-    // x(0) = x0 = c1 + c2
-    // x'(0) = v0 = c1 L1 + c2 L2
-
-    static const double B = k/m;
+    static const double B = k/(2.0 * m);
     static const double O2 = c/m;
 
-    static const double D = B*B - 4 * O2;
+    static const double D = B*B - O2;
     // assume real solutions
     assert(D >= 0);
 
-    const double L1 = (-B + sqrt(D))/2;
-    const double L2 = (-B - sqrt(D))/2;
+    const double L1 = -B + sqrt(D);
+    const double L2 = -B - sqrt(D);
 
     const double c2 = (v0 - x0 * L1) / (-L1 + L2);
     const double c1 = x0 - c2;

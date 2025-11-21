@@ -35,34 +35,34 @@ m\ddot{x} + k\dot{x} + cx = 0
 where $m$ is the **mass** $k$ is the **damping coefficient** and $c$ is the **stiffness of the spring**. To solve this equation, we have to find the $x(t)$ **displacement from the equilibrium position**.
 
 The governing equation is a **2nd order linear homogeneous differential equation with constant coefficients**.
-There are many ways to solve this equation numerically, only a few selected will be presented in this document and their implementation can be found in the accompanying *nmsd.c* file.
+There are many ways to solve this equation numerically, only a few will be presented in this document and their implementation can be found in the accompanying *nmsd.c* file.
 
 ### Analytical Solution (`an()`)
 
 We can solve this equation analytically, this will be the base-line for the comparison of different numerical methods.
 
-Let's introduce $\beta = \frac{k}{m}$ and the **squared natural frequency** $\omega^2 = \frac{c}{m}$ and assume that the solution $x(t)$ is in a form of $e^{\lambda t}$.
+Let's introduce the **damping constant** $\beta = \frac{k}{2m}$ and the **natural frequency** $\omega = \sqrt{\frac{c}{m}}$ and assume that the solution $x(t)$ is in a form of $c e^{\lambda t}$.
 We can rewrite the equation:
 ```math
-\lambda^2 e^{\lambda t} + \beta \lambda e^{\lambda t} + \omega^2 e^{\lambda t} = 0
+\lambda^2 c e^{\lambda t} + 2 \beta \lambda c e^{\lambda t} + \omega^2 c e^{\lambda t} = 0
 ```
 after regrouping we get:
 ```math
-\left( \lambda^2 + \beta \lambda + \omega^2 \right) e^{\lambda t} = 0
+\left( \lambda^2 + 2 \beta \lambda + \omega^2 \right) c e^{\lambda t} = 0
 ```
-since $e^{\lambda t}$ cannot be $0$, we can divide by it to arrive to the **characteristic equation**:
+since $c e^{\lambda t}$ cannot be $0$, we can divide by it to arrive at the **characteristic equation**:
 ```math
-\lambda^2 + \beta \lambda + \omega^2 = 0
+\lambda^2 + 2 \beta \lambda + \omega^2 = 0
 ```
 which is a **quadratic equation**. To solve it we can use the **quadratic formula**:
 ```math
-\lambda_{1,2} = \frac {-\beta \pm \sqrt{\beta^2 - 4 \omega^2}}{2}
+\lambda_{1,2} = -\beta \pm \sqrt{\beta^2 - \omega^2}
 ```
-Since the original equation is **linear**, the general solution:
+Since the original equation is **linear**, the general solution is:
 ```math
 x(t) = c_1 e^{\lambda_1 t} + c_2 e^{\lambda_2 t}
 ```
-The $c_1$ and $c_2$ constants can be determined from the **initial conditions** which are the $x_0$ **initial position** and the $v_0$ **initial velocity**:
+The $c_1$ and $c_2$ constants can be determined from the **initial conditions** which are the **initial position** $x_0$  and the **initial velocity** $v_0$:
 ```math
 x(t=0) = x_0 = c_1 + c_2
 ```
@@ -75,8 +75,10 @@ x(t=0) = x_0 = c_1 + c_2
 > 
 > Boyce W.E., DiPrima R.C., Meade D.B.: Elementary Differential Equations and Boundary Value Problems,
 > ISBN 978-1-119-37792-4
+>  + Chapter 3: Second-Order Linear Differential Equations
 >
-> Chapter 3: Second-Order Linear Differential Equations
+> Thomson W.T: Theory of Vibration with Applications, ISBN 0-7487-4380-4    
+>  + Chapter 2.6: Viscously Damped Free Vibration
 
 ### Explicit Eluer method (`ee1()`)
 

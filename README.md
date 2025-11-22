@@ -82,6 +82,29 @@ x(t=0) = x_0 = c_1 + c_2
 
 ### Explicit Eluer method (`ee1()`)
 
+The Euler method (also called the forward Euler method) is a numerical procedure for solving ordinary differential equations with a given initial value.
+
+Let's recall the defintion of the **derivative**:
+```math
+\dot{f}(t) = \lim_{\Delta t \to 0} \frac{f(t+\Delta t) -f(t)} {\Delta t}
+```
+assuming $\Delta t$ is sufficiently **small**:
+```math
+\dot{f}(t) \approx \frac{f(t+\Delta t) -f(t)}{\Delta t}
+```
+so:
+```math
+f(t+\Delta t) \approx f(t) + \Delta t \dot{f}(t)
+```
+where $\Delta t$ is the **step size** or **time step**.
+
+Since $\Delta t$ is **not** infinitesimally small, there is always an error:
+
+```math
+f(t+\Delta t) = f(t) + \Delta t \dot{f}(t) + O\left(\left(\Delta t\right)^2\right)
+```
+where $O\left(\left(\Delta t\right)^2\right)$ is the error term, that is dependent on the **time step**. This means this method is a **first order method**.
+
 ### Classical Runge-Kutta method (`rk4()`)
 
 ### Velocity Verlet method (`vv2()`)

@@ -82,7 +82,7 @@ x(t=0) = x_0 = c_1 + c_2
 
 ### Explicit Euler method (`ee1()`)
 
-The Euler method (also called the forward Euler method) is a numerical procedure for solving ordinary differential equations with a given initial value.
+The explicit Euler method (also called the forward Euler method) is a numerical procedure for solving ordinary differential equations with a given initial value.
 
 Let's recall the defintion of the **derivative**:
 ```math
@@ -98,23 +98,12 @@ x(t+\Delta t) \approx x(t) + \Delta t \frac{\mathrm{d}x}{\mathrm{d}t}
 ```
 where $\Delta t$ is the **step size** or **time step**.
 
-Since $\Delta t$ is **not** infinitesimally small, there is always an error.
+This is why it is called an **explicit** method, because the calculation of the solution at the next time step is based only on the information that is already known (the current time step).
 
-The $T_{\Delta t}$ **the local truncation error** is:
-
-```math
-T_{\Delta t} = x(t+\Delta t) - x(t) - \Delta t \frac{\mathrm{d}x}{\mathrm{d}t}
-```
-Using **Taylor’s theorem** to estimate $T_{\Delta t}$ we get:
-```math
-T_{\Delta t} = \frac {\Delta t^2}{2} \frac{\mathrm{d}^2x}{\mathrm{d}t^2}
-```
-We say that the local truncation error of Euler’s method is of order $\Delta t^2$, which we write as $O(\Delta t^2)$.
-
-Analizing the overall effect of truncation error we arrive to that the **global truncation error** of Euler’s method is of order 
+Since $\Delta t$ is **not** infinitesimally small, there is always an error. The **global truncation error** of Euler’s method is of order 
 $\Delta t$, which we write as $O(\Delta t)$. Meaning the Euler method is a **first order** numerical method.
 
-The Eluer method can solve the following problem:
+The Euler method can solve the following problem:
 
 ```math
 \frac{\mathrm{d}x}{\mathrm{d}t} = f(t, x), x(t_0) = x_0
@@ -135,7 +124,7 @@ x\\
 \end{bmatrix}
 ```
 
-meaning the drivative of this vector becames:
+meaning the derivative of this vector becomes:
 
 ```math
 \underline{\dot{x}} =
@@ -148,7 +137,7 @@ meaning the drivative of this vector becames:
 so the original equation can be written as:
 
 ```math
-\underline{\dot{x}} = f(t, \underline{x})
+\underline{\dot{x}} = \boldsymbol{f}(t, \underline{x})
 ```
 
 ```math
@@ -164,7 +153,7 @@ x_1\\
 ```
 This is the `msd()` function in the source code.
 
-This transformation allow us to use the Euler method to solve our problem by aplling it to **each** equation in the system given the
+This transformation allows us to use the Euler method to solve our problem by applying it to **each** equation in the system given the
 ```math
 \begin{bmatrix}
 x(t_0)\\
@@ -178,7 +167,21 @@ v_0
 ```
 initial conditions.
 
-This method is often used in simpler video games as a base of the physics engine.
+This method is often used in simpler video games as a base of the physics engine due to its simplicity and speed for a first-pass or low-complexity physics systems.
+
+> [!NOTE]
+> Suggested material:
+> 
+> Iserles A.: A First Course in the Numerical Analysis of Differential Equations,
+> ISBN 978-0-511-50637-6
+>  + Chapter 1.2: Euler’s method
+>
+> Teschl G.: Ordinary Differential Equations and Dynamical Systems, ISBN 978-0821883280   
+>  + Chapter 3.2: Linear autonomous first-order systems
+>  + Chapter 3.3: Linear autonomous equations of order $n$
+>
+> Millington I.: Game Physics Engine Development, ISBN 978-0-12-381976-5
+>  + Chapter 3.3: The Integrator
 
 ### Classical Runge-Kutta method (`rk4()`)
 

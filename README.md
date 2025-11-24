@@ -75,11 +75,10 @@ x(t=0) = x_0 = c_1 + c_2
 > [!NOTE]
 > Suggested material:
 > 
-> Boyce W.E., DiPrima R.C., Meade D.B.: Elementary Differential Equations and Boundary Value Problems,
-> ISBN 978-1-119-37792-4
+> Boyce W.E., DiPrima R.C., Meade D.B. (2017): Elementary Differential Equations and Boundary Value Problems, ISBN 978-1-119-37792-4
 >  + Chapter 3: Second-Order Linear Differential Equations
 >
-> Thomson W.T.: Theory of Vibration with Applications, ISBN 0-7487-4380-4    
+> Thomson W.T. (1993): Theory of Vibration with Applications, ISBN 0-7487-4380-4    
 >  + Chapter 2.6: Viscously Damped Free Vibration
 
 ### Explicit Euler method (`ee1()`)
@@ -174,18 +173,70 @@ This method is often used in simpler video games as a base of the physics engine
 > [!NOTE]
 > Suggested material:
 > 
-> Iserles A.: A First Course in the Numerical Analysis of Differential Equations,
-> ISBN 978-0-511-50637-6
+> Iserles A. (2009): A First Course in the Numerical Analysis of Differential Equations, ISBN 978-0-511-50637-6
 >  + Chapter 1.2: Euler’s method
 >
-> Teschl G.: Ordinary Differential Equations and Dynamical Systems, ISBN 978-0821883280   
+> Teschl G. (2012): Ordinary Differential Equations and Dynamical Systems, ISBN 978-0821883280   
 >  + Chapter 3.2: Linear autonomous first-order systems
 >  + Chapter 3.3: Linear autonomous equations of order $n$
 >
-> Millington I.: Game Physics Engine Development, ISBN 978-0-12-381976-5
+> Millington I. (2007): Game Physics Engine Development, ISBN 978-0-12-381976-5
 >  + Chapter 3.3: The Integrator
 
-### Classical Runge-Kutta method (`rk4()`)
+### Classic Runge-Kutta method (`rk4()`)
+
+Since the error is dependent of the time step, one way to reduce this error is to evaluate the function more times in one time step. This is the basic idea of the **explicit Runge-Kutta method**.
+It achieves this by computing the $k_i$ **stage derivaties** as follows:
+
+```math
+k_1 = \Delta t f(t, x)
+```
+```math
+k_2 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \Delta t \frac{k_1}{2} \right)
+```
+```math
+k_3 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \Delta t \frac{k_2}{2} \right)
+```
+```math
+k_4 = \Delta t f(t + \Delta t, x + \Delta t k_3)
+```
+
+and using them to compute the final result:
+
+```math
+x(t+\Delta t) \approx x(t) + \Delta t \left( \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6} \right)
+```
+
+This method evaulates the functon **4 times**.
+
+A more compact notation of these steps is the **Butcher tableau**:
+
+```math
+\begin{array}
+{ccccc}
+0\\
+\frac{1}{2} & \frac{1}{2}\\
+\frac{1}{2} &0 &\frac{1}{2} \\
+1& 0& 0& 1\\
+& \frac{1}{6} &\frac{1}{3} &\frac{1}{3} &\frac{1}{6} 
+\end{array}
+```
+
+The explicit Runge-Kutta method is a **4th order method** ( $O(\Delta t^4)$ ) and commonly used due to its ideal balance of accuracy and computational cost.
+It is sometimes called the "classic" Runge-Kutta method due to its historical significance.
+
+> [!NOTE]
+>
+> Suggested material:
+> 
+> Runge C.D.T. (1895): Über die numerische Auflösung von Differentialgleichungen, DOI 10.1007/BF01446807
+> 
+> Kutta W. (1901): Beitrag zur näherungsweisen Integration totaler Differentialgleichungen, Zeitschrift für Mathematik und Physik, 46, pp. 435–453
+> 
+> Butcher J.C. (1965): On the Attainable Order of Runge-Kutta Methods, DOI 10.2307/2003670 
+>
+> Hairer E., Norsett S.P., Wanner G. (1993): Solving Ordinary Differential Equations I: Nonstiff Problems, ISBN 978-3-540-56670-0
+>  + Chapter II.1: The First Runge-Kutta Methods
 
 ### Velocity Verlet method (`vv2()`)
 

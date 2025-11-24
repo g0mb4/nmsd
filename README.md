@@ -2,6 +2,8 @@
 
 Numerical solutions of the mass-spring-damper model.
 
+![msd](msd.png)
+
 ## Quickstart
 
 ```bash

@@ -41,16 +41,16 @@ There are many ways to solve this equation numerically, only a few will be prese
 
 We can solve this equation analytically, this will be the base-line for the comparison of different numerical methods.
 
-Let's introduce the **damping constant** $\beta = \frac{k}{2m}$ and the **natural frequency** $\omega = \sqrt{\frac{c}{m}}$ and assume that the solution $x(t)$ is in a form of $c e^{\lambda t}$.
+Let's introduce the **damping constant** $\beta = \frac{k}{2m}$ and the **natural frequency** $\omega = \sqrt{\frac{c}{m}}$ and assume that the solution $x(t)$ is in a form of $e^{\lambda t}$.
 We can rewrite the equation:
 ```math
-\lambda^2 c e^{\lambda t} + 2 \beta \lambda c e^{\lambda t} + \omega^2 c e^{\lambda t} = 0
+\lambda^2 e^{\lambda t} + 2 \beta \lambda e^{\lambda t} + \omega^2 e^{\lambda t} = 0
 ```
 after regrouping we get:
 ```math
-\left( \lambda^2 + 2 \beta \lambda + \omega^2 \right) c e^{\lambda t} = 0
+\left( \lambda^2 + 2 \beta \lambda + \omega^2 \right) e^{\lambda t} = 0
 ```
-since $c e^{\lambda t}$ cannot be $0$, we can divide by it to arrive at the **characteristic equation**:
+since $e^{\lambda t}$ cannot be $0$, we can divide by it to arrive at the **characteristic equation**:
 ```math
 \lambda^2 + 2 \beta \lambda + \omega^2 = 0
 ```
@@ -80,30 +80,105 @@ x(t=0) = x_0 = c_1 + c_2
 > Thomson W.T.: Theory of Vibration with Applications, ISBN 0-7487-4380-4    
 >  + Chapter 2.6: Viscously Damped Free Vibration
 
-### Explicit Eluer method (`ee1()`)
+### Explicit Euler method (`ee1()`)
 
 The Euler method (also called the forward Euler method) is a numerical procedure for solving ordinary differential equations with a given initial value.
 
 Let's recall the defintion of the **derivative**:
 ```math
-\dot{f}(t) = \lim_{\Delta t \to 0} \frac{f(t+\Delta t) -f(t)} {\Delta t}
+\frac{\mathrm{d}x}{\mathrm{d}t} = \lim_{\Delta t \to 0} \frac{x(t+\Delta t) - x(t)} {\Delta t}
 ```
 assuming $\Delta t$ is sufficiently **small**:
 ```math
-\dot{f}(t) \approx \frac{f(t+\Delta t) -f(t)}{\Delta t}
+\frac{\mathrm{d}x}{\mathrm{d}t} \approx \frac{x(t+\Delta t) - x(t)}{\Delta t}
 ```
-so:
+after some reareagement, we get:
 ```math
-f(t+\Delta t) \approx f(t) + \Delta t \dot{f}(t)
+x(t+\Delta t) \approx x(t) + \Delta t \frac{\mathrm{d}x}{\mathrm{d}t}
 ```
 where $\Delta t$ is the **step size** or **time step**.
 
-Since $\Delta t$ is **not** infinitesimally small, there is always an error:
+Since $\Delta t$ is **not** infinitesimally small, there is always an error.
+
+The $T_{\Delta t}$ **the local truncation error** is:
 
 ```math
-f(t+\Delta t) = f(t) + \Delta t \dot{f}(t) + O\left(\left(\Delta t\right)^2\right)
+T_{\Delta t} = x(t+\Delta t) - x(t) - \Delta t \frac{\mathrm{d}x}{\mathrm{d}t}
 ```
-where $O\left(\left(\Delta t\right)^2\right)$ is the error term, that is dependent on the **time step**. This means this method is a **first order method**.
+Using **Taylor’s theorem** to estimate $T_{\Delta t}$ we get:
+```math
+T_{\Delta t} = \frac {\Delta t^2}{2} \frac{\mathrm{d}^2x}{\mathrm{d}t^2}
+```
+We say that the local truncation error of Euler’s method is of order $\Delta t^2$, which we write as $O(\Delta t^2)$.
+
+Analizing the overall effect of truncation error we arrive to that the **global truncation error** of Euler’s method is of order 
+$\Delta t$, which we write as $O(\Delta t)$. Meaning the Euler method is a **first order** numerical method.
+
+The Eluer method can solve the following problem:
+
+```math
+\frac{\mathrm{d}x}{\mathrm{d}t} = f(t, x), x(t_0) = x_0
+```
+which is a **first order** ordinary differential equation with a given initial value, but we want to solve a **second order** ordinary differential equation.
+We can transform our original equation to a **first order system of differential equations** as follows:
+
+We introduce the **state vector**:
+```math
+\underline{x} =
+\begin{bmatrix}
+x_0\\
+x_1
+\end{bmatrix} =
+\begin{bmatrix}
+x\\
+\dot{x}
+\end{bmatrix}
+```
+
+meaning the drivative of this vector becames:
+
+```math
+\underline{\dot{x}} =
+\begin{bmatrix}
+\dot{x}\\
+\ddot{x}
+\end{bmatrix}
+```
+
+so the original equation can be written as:
+
+```math
+\underline{\dot{x}} = f(t, \underline{x})
+```
+
+```math
+\begin{bmatrix}
+\dot{x}\\
+\ddot{x}
+\end{bmatrix}
+=
+\begin{bmatrix}
+x_1\\
+\frac{1}{m} (-kx_1 - c x_0)
+\end{bmatrix}
+```
+This is the `msd()` function in the source code.
+
+This transformation allow us to use the Euler method to solve our problem by aplling it to **each** equation in the system given the
+```math
+\begin{bmatrix}
+x(t_0)\\
+\dot{x}(t_0)
+\end{bmatrix}
+=
+\begin{bmatrix}
+x_0\\
+v_0
+\end{bmatrix}
+```
+initial conditions.
+
+This method is often used in simpler video games as a base of the physics engine.
 
 ### Classical Runge-Kutta method (`rk4()`)
 

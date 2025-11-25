@@ -1,6 +1,6 @@
 # nmsd
 
-Numerical solutions of the mass-spring-damper model.
+Numerical solutions of the Mass-Spring-Damper model.
 
 ![msd](msd.png)
 
@@ -21,7 +21,7 @@ The choice of the "cryptic," old style is deliberate. It serves three purposes:
 
 + C is an old but easy-to-learn language that can be compiled even on embedded systems. It is an efficient language, meaning it is favorable for numerical methods and it does not hide the implementation details.
 + Declaring the variables at the top of the function makes the algorithms less noisy, in my opinion.
-+ The cryptic variable names prepare the reader: many numerical methods have an old C/FORTRAN implementation that can be very useful to study, but they use the same "cryptic" style because of the limitations of their time.
++ The cryptic variable names prepare the reader: many numerical methods have useful old C/FORTRAN implementations to study, but they use the same "cryptic" style because of the limitations of their time.
 
 > [!WARNING]
 > The implementation of the methods is **not** general. They are capable of solving **only a second order differential equation**,
@@ -29,8 +29,8 @@ The choice of the "cryptic," old style is deliberate. It serves three purposes:
   
 ## Explanation
 
-The mass-spring-damper model describes a 1-degree-of-freedom mechanical system consisting of a mass, a spring and a damper.
-The equation of the motion of the unforced system:
+The Mass-Spring-Damper model describes a 1-degree-of-freedom mechanical system consisting of a mass, a spring and a damper.
+The equation of motion of the unforced system:
 ```math
 m\ddot{x} + k\dot{x} + cx = 0
 ```
@@ -64,7 +64,7 @@ Since the original equation is **linear**, the general solution is:
 ```math
 x(t) = c_1 e^{\lambda_1 t} + c_2 e^{\lambda_2 t}
 ```
-The $c_1$ and $c_2$ constants can be determined from the **initial conditions** which are the **initial position** $x_0$  and the **initial velocity** $v_0$:
+The $c_1$ and $c_2$ constants can be determined from the **initial conditions**: the **initial position** $x_0$  and the **initial velocity** $v_0$:
 ```math
 x(t=0) = x_0 = c_1 + c_2
 ```
@@ -93,7 +93,7 @@ assuming $\Delta t$ is sufficiently **small**:
 ```math
 \frac{\mathrm{d}x}{\mathrm{d}t} \approx \frac{x(t+\Delta t) - x(t)}{\Delta t}
 ```
-after some reareagement, we get:
+after some rearrangement, we get:
 ```math
 x(t+\Delta t) \approx x(t) + \Delta t \frac{\mathrm{d}x}{\mathrm{d}t}
 ```
@@ -102,7 +102,7 @@ where $\Delta t$ is the **step size** or **time step**.
 This is why it is called an **explicit** method, because the calculation of the solution at the next time step is based only on the information that is already known (the current time step).
 
 Since $\Delta t$ is **not** infinitesimally small, there is always an error. The **global truncation error** of Euler’s method is of order 
-$\Delta t$, which we write as $O(\Delta t)$. Meaning the Euler method is a **first order** numerical method.
+$\Delta t$, which we write as $O(\Delta t)$. The Euler method is therefore a **first order** numerical method.
 
 The Euler method can solve the following problem:
 
@@ -152,7 +152,7 @@ x_1\\
 \frac{1}{m} (-kx_1 - c x_0)
 \end{bmatrix}
 ```
-This is the `msd()` function in the source code.
+This is the `msd()` function defined in the source code.
 
 This transformation allows us to use the Euler method to solve our problem by applying it to **each** equation in the system given the
 ```math
@@ -192,13 +192,13 @@ It achieves this by computing the $k_i$ **stage derivaties** as follows:
 k_1 = \Delta t f(t, x)
 ```
 ```math
-k_2 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \Delta t \frac{k_1}{2} \right)
+k_2 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \frac{k_1}{2} \right)
 ```
 ```math
-k_3 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \Delta t \frac{k_2}{2} \right)
+k_3 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \frac{k_2}{2} \right)
 ```
 ```math
-k_4 = \Delta t f(t + \Delta t, x + \Delta t k_3)
+k_4 = \Delta t f(t + \Delta t, x + k_3)
 ```
 
 and using them to compute the final result:
@@ -207,7 +207,7 @@ and using them to compute the final result:
 x(t+\Delta t) \approx x(t) + \Delta t \left( \frac{k_1}{6} + \frac{k_2}{3} + \frac{k_3}{3} + \frac{k_4}{6} \right)
 ```
 
-This method evaulates the functon **4 times**.
+This method evaluates the function **4 times**.
 
 A more compact notation of these steps is the **Butcher tableau**:
 
@@ -262,7 +262,7 @@ A more compact notation of these steps is the **Butcher tableau**:
   </tr>
 </table>
 
-The explicit Runge-Kutta method is a **fourth-order method** ( $O(\Delta t^4)$ ) and commonly used due to its ideal balance of accuracy and computational cost.
+The explicit Runge-Kutta method is a **fourth-order method** ( $O(\Delta t^4)$ ) and commonly used due to its ideal **balance** of accuracy and computational cost.
 It is sometimes called the "classic" Runge-Kutta method due to its historical significance.
 
 > [!NOTE]
@@ -414,7 +414,7 @@ The **Dormand–Prince method** is a **fifth-order** method with a **fourth-orde
   </tr>
 </table>
 
-This method is widely used in scientific computing; for example this is the default method of the MATLAB/Simulink software (`ode45`).
+This method is widely used in **scientific computing**; for example this is the default method of the MATLAB/Simulink software (`ode45`).
 
 > [!NOTE]
 >
@@ -429,5 +429,40 @@ This method is widely used in scientific computing; for example this is the defa
 >
 > Shampine L., Reichelt M. (1997): The MATLAB ODE Suite, DOI 10.1137/S1064827594276424
 
-### Velocity Verlet method (`vv2()`)
+### Velocity-Verlet method (`vv2()`)
+
+The Verlet integration is a numerical method designed to integrate Newton's equations of motion:
+
+```math
+\ddot{x} = \boldsymbol{a}(x)
+```
+where $a$ is the position-dependent **acceleration**. The original Verlet method cannot solve the *MSD* system since its acceleration depends on the velocity:
+
+```math
+\ddot{x} = \boldsymbol{a}(x, \dot{x})
+```
+
+The **Velocity-Verlet method** can solve the system using the following steps:
+
+1) Calculate acceleration in the current time step
+2) Update the half-step velocity
+3) Update position with the half-step velocity
+4) Calculate new acceleration
+5) Update the full-step velocity
+
+This method is a **second order** method.
+
+It is often used in Discrete Element Method and Molecular Dynamics simulations due to its **stability** and **energy conservative** properties.
+
+> [!NOTE]
+>
+> Suggested material:
+> 
+> Verlet L. (1967): Computer "Experiments" on Classical Fluids. I. Thermodynamical Properties of Lennard-Jones Molecules, DOI 10.1103/PhysRev.159.98
+>
+> Allen M.P., Tildesley D.J. (2017): Computer Simulation of Liquids, ISBN 978–0–19–880319–5
+>  + Chapter 3.2.1: The Verlet algorithm
+>
+> Vyas D.R., Ottino J.M., Lueptow R.M., Umbanhowar P.B. (2025): Improved velocity-Verlet algorithm for the discrete element method, DOI 10.1016/j.cpc.2025.109524
+
 

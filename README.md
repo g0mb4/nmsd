@@ -211,16 +211,56 @@ This method evaulates the functon **4 times**.
 
 A more compact notation of these steps is the **Butcher tableau**:
 
-```math
-\begin{array}
-{ccccc}
-0\\
-\frac{1}{2} & \frac{1}{2}\\
-\frac{1}{2} &0 &\frac{1}{2} \\
-1& 0& 0& 1\\
-& \frac{1}{6} &\frac{1}{3} &\frac{1}{3} &\frac{1}{6} 
-\end{array}
-```
+<table style="border-collapse: collapse; margin-left: auto; margin-right: auto; text-align: center;">
+  <tr>
+    <td style="padding: 5px;">$0$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  <tr>
+    <td style="padding: 5px;">$\frac{1}{2}$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{1}{2}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  <tr>
+    <td style="padding: 5px;">$\frac{1}{2}$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$0$</td>
+    <td style="padding: 5px;">$\frac{1}{2}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  <tr>
+    <td style="padding: 5px;">$1$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$0$</td>
+    <td style="padding: 5px;">$0$</td>
+    <td style="padding: 5px;">$1$</td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  <tr>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; width: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+  </tr>
+  <tr>
+    <td style="padding: 5px;"></td> 
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{1}{6}$</td>
+    <td style="padding: 5px;">$\frac{1}{3}$</td>
+    <td style="padding: 5px;">$\frac{1}{3}$</td>
+    <td style="padding: 5px;">$\frac{1}{6}$</td>
+  </tr>
+</table>
 
 The explicit Runge-Kutta method is a **fourth-order method** ( $O(\Delta t^4)$ ) and commonly used due to its ideal balance of accuracy and computational cost.
 It is sometimes called the "classic" Runge-Kutta method due to its historical significance.
@@ -252,21 +292,127 @@ This way we directly control the local error.
 
 The **Dormand–Prince method** is a **fifth-order** method with a **fourth-order** error estimation. The **Butcher tableau** of the method:
 
-```math
-\begin{array}
-{ccccccc}
-0\\
-\frac{1}{5} & \frac{1}{5}\\
-\frac{3}{10} & \frac{3}{40} & \frac{9}{40}\\
-\frac{4}{5} & \frac{44}{45} & -\frac{56}{15} & \frac{32}{9}\\
-\frac{8}{9} & \frac{19372}{6561} & -\frac{25360}{2187} & \frac{64448}{6561} & -\frac{212}{729}\\
-1 & \frac{9017}{3168} & -\frac{355}{33} & \frac{46732}{5247} & \frac{49}{176} & -\frac{5103}{18656}\\
-1 & \frac{35}{384} & 0 & \frac{500}{1113} & \frac{125}{192} & -\frac{2187}{6784} & \frac{11}{84}\\
-& \frac{35}{384} & 0 & \frac{500}{1113} & \frac{125}{192} & -\frac{2187}{6784} & \frac{11}{84} & 0\\
-& \frac{5179}{57600} & 0 & \frac{7571}{16695} & \frac{393}{640} & -\frac{92097}{339200} & \frac{187}{2100} & \frac{1}{40}\\
-\end{array}
-```
-where the last row corresponds to the error estimation aand the second-to-last row to the solution.
+<table style="border-collapse: collapse; margin-left: auto; margin-right: auto; text-align: center;">
+  <tr>
+    <td style="padding: 5px;">$0$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$\frac{1}{5}$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{1}{5}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$\frac{3}{10}$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{3}{40}$</td>
+    <td style="padding: 5px;">$\frac{9}{40}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$\frac{4}{5}$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{44}{45}$</td>
+    <td style="padding: 5px;">$-\frac{56}{15}$</td>
+    <td style="padding: 5px;">$\frac{32}{9}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$\frac{8}{9}$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{19372}{6561}$</td>
+    <td style="padding: 5px;">$-\frac{25360}{2187}$</td>
+    <td style="padding: 5px;">$\frac{64448}{6561}$</td>
+    <td style="padding: 5px;">$-\frac{212}{729}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$1$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{9017}{3168}$</td>
+    <td style="padding: 5px;">$-\frac{355}{33}$</td>
+    <td style="padding: 5px;">$\frac{46732}{5247}$</td>
+    <td style="padding: 5px;">$\frac{49}{176}$</td>
+    <td style="padding: 5px;">$-\frac{5103}{18656}$</td>
+    <td style="padding: 5px;"></td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$1$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{35}{384}$</td>
+    <td style="padding: 5px;">$0$</td>
+    <td style="padding: 5px;">$\frac{500}{1113}$</td>
+    <td style="padding: 5px;">$\frac{125}{192}$</td>
+    <td style="padding: 5px;">$-\frac{2187}{6784}$</td>
+    <td style="padding: 5px;">$\frac{11}{84}$</td>
+    <td style="padding: 5px;"></td>
+  </tr>
+  
+  <tr>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; width: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+    <td style="height: 2px; background-color: black; padding: 0;"></td>
+  </tr>
+
+  <tr>
+    <td style="padding: 5px;">$x$</td>
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{35}{384}$</td>
+    <td style="padding: 5px;">$0$</td>
+    <td style="padding: 5px;">$\frac{500}{1113}$</td>
+    <td style="padding: 5px;">$\frac{125}{192}$</td>
+    <td style="padding: 5px;">$-\frac{2187}{6784}$</td>
+    <td style="padding: 5px;">$\frac{11}{84}$</td>
+    <td style="padding: 5px;">0</td>
+  </tr>
+  
+  <tr>
+    <td style="padding: 5px;">$\hat{x}$</td> 
+    <td style="width: 2px; background-color: black; padding: 0;"></td>
+    <td style="padding: 5px;">$\frac{5179}{57600}$</td>
+    <td style="padding: 5px;">$0$</td>
+    <td style="padding: 5px;">$\frac{7571}{16695}$</td>
+    <td style="padding: 5px;">$\frac{393}{640}$</td>
+    <td style="padding: 5px;">$-\frac{92097}{339200}$</td>
+    <td style="padding: 5px;">$\frac{187}{2100}$</td>
+    <td style="padding: 5px;">$\frac{1}{40}$</td>
+  </tr>
+</table>
 
 This method is widely used in scientific computing; for example this is the default method of the MATLAB/Simulink software (`ode45`).
 

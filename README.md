@@ -421,10 +421,6 @@ This method is widely used in scientific computing; for example this is the defa
 > Suggested material:
 > 
 > Dormand J.R., Prince P.J. (1980): A family of embedded Runge-Kutta formulae, DOI 10.1016/0771-050X(80)90013-3
-> 
-> Kutta W. (1901): Beitrag zur näherungsweisen Integration totaler Differentialgleichungen, Zeitschrift für Mathematik und Physik, 46, pp. 435–453
-> 
-> Butcher J.C. (1965): On the Attainable Order of Runge-Kutta Methods, DOI 10.2307/2003670 
 >
 > Hairer E., Norsett S.P., Wanner G. (1993): Solving Ordinary Differential Equations I: Nonstiff Problems, ISBN 978-3-540-56670-0
 >  + Chapter II.4: Automatic Step Size Control

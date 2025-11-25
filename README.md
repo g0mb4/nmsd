@@ -222,7 +222,7 @@ A more compact notation of these steps is the **Butcher tableau**:
 \end{array}
 ```
 
-The explicit Runge-Kutta method is a **4th order method** ( $O(\Delta t^4)$ ) and commonly used due to its ideal balance of accuracy and computational cost.
+The explicit Runge-Kutta method is a **fourth-order method** ( $O(\Delta t^4)$ ) and commonly used due to its ideal balance of accuracy and computational cost.
 It is sometimes called the "classic" Runge-Kutta method due to its historical significance.
 
 > [!NOTE]
@@ -240,17 +240,17 @@ It is sometimes called the "classic" Runge-Kutta method due to its historical si
 
 ### Dormand–Prince method (`dp54()`)
 
-The other method to improve the accuracy of the numerical method is to decrease the step size, but it leads to an increase of the numerical computation needed.
-An other aspec is that we change the step size to improve te **accuracy**, this is what we want to control.
+The other method to improve the accuracy of the numerical method is to decrease the step size, but this leads to an increase of the numerical computation needed.
+An other aspect is that we change the step size to improve the **accuracy**; this is what we want to control.
 This is why the **adaptive step** or **variable step** methods were born: the **embedded Runge-Kutta** methods.
-The idea is that we use $p$-ad method for the solution and a $\hat{p}$-ad method for **error estimation** (usually $\hat{p} = p - 1$).
-The difference between the result of the methods yields **the local error** and beased on this error we choose the appropriate step size:
+The idea is that we use $p$-order method for the solution and a $\hat{p}$-order method for **error estimation** (usually $\hat{p} = p - 1$).
+The difference between the result of the methods yields **the local error** and based on this error we choose the appropriate step size:
   + if the solution is accepted: increase the step size, to avoid unnecessary computation,
-  + else: decrease the step size and rerun the calulation.
+  + otherwise: decrease the step size and rerun the calculation.
     
 This way we directly control the local error.
 
-The **Dormand–Prince method** is a **fifth order** method with a **forth order** error estimation. The **Butcher tableau** of the method:
+The **Dormand–Prince method** is a **fifth-order** method with a **fourth-order** error estimation. The **Butcher tableau** of the method:
 
 ```math
 \begin{array}
@@ -266,9 +266,9 @@ The **Dormand–Prince method** is a **fifth order** method with a **forth order
 & \frac{5179}{57600} & 0 & \frac{7571}{16695} & \frac{393}{640} & -\frac{92097}{339200} & \frac{187}{2100} & \frac{1}{40}\\
 \end{array}
 ```
-where the last row corresponds to the error estimation and the second-to-last row for the solution.
+where the last row corresponds to the error estimation aand the second-to-last row to the solution.
 
-This method is widely used in scientific computing, for example this is the default method of the MATLAB/Simulink software (`ode45`).
+This method is widely used in scientific computing; for example this is the default method of the MATLAB/Simulink software (`ode45`).
 
 > [!NOTE]
 >

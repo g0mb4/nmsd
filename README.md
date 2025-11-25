@@ -238,7 +238,54 @@ It is sometimes called the "classic" Runge-Kutta method due to its historical si
 > Hairer E., Norsett S.P., Wanner G. (1993): Solving Ordinary Differential Equations I: Nonstiff Problems, ISBN 978-3-540-56670-0
 >  + Chapter II.1: The First Runge-Kutta Methods
 
-### Velocity Verlet method (`vv2()`)
-
 ### Dormand–Prince method (`dp54()`)
+
+The other method to improve the accuracy of the numerical method is to decrease the step size, but it leads to an increase of the numerical computation needed.
+An other aspec is that we change the step size to improve te **accuracy**, this is what we want to control.
+This is why the **adaptive step** or **variable step** methods were born: the **embedded Runge-Kutta** methods.
+The idea is that we use $p$-ad method for the solution and a $\hat{p}$-ad method for **error estimation** (usually $\hat{p} = p - 1$).
+The difference between the result of the methods yields **the local error** and beased on this error we choose the appropriate step size:
+  + if the solution is accepted: increase the step size, to avoid unnecessary computation,
+  + else: decrease the step size and rerun the calulation.
+    
+This way we directly control the local error.
+
+The **Dormand–Prince method** is a **fifth order** method with a **forth order** error estimation. The **Butcher tableau** of the method:
+
+```math
+\begin{array}
+{ccccccc}
+0\\
+\frac{1}{5} & \frac{1}{5}\\
+\frac{3}{10} & \frac{3}{40} & \frac{9}{40}\\
+\frac{4}{5} & \frac{44}{45} & -\frac{56}{15} & \frac{32}{9}\\
+\frac{8}{9} & \frac{19372}{6561} & -\frac{25360}{2187} & \frac{64448}{6561} & -\frac{212}{729}\\
+1 & \frac{9017}{3168} & -\frac{355}{33} & \frac{46732}{5247} & \frac{49}{176} & -\frac{5103}{18656}\\
+1 & \frac{35}{384} & 0 & \frac{500}{1113} & \frac{125}{192} & -\frac{2187}{6784} & \frac{11}{84}\\
+& \frac{35}{384} & 0 & \frac{500}{1113} & \frac{125}{192} & -\frac{2187}{6784} & \frac{11}{84} & 0\\
+& \frac{5179}{57600} & 0 & \frac{7571}{16695} & \frac{393}{640} & -\frac{92097}{339200} & \frac{187}{2100} & \frac{1}{40}\\
+\end{array}
+```
+where the last row corresponds to the error estimation and the second-to-last row for the solution.
+
+This method is widely used in scientific computing, for example this is the default method of the MATLAB/Simulink software (`ode45`).
+
+> [!NOTE]
+>
+> Suggested material:
+> 
+> Dormand J.R., Prince P.J. (1980): A family of embedded Runge-Kutta formulae, DOI 10.1016/0771-050X(80)90013-3
+> 
+> Kutta W. (1901): Beitrag zur näherungsweisen Integration totaler Differentialgleichungen, Zeitschrift für Mathematik und Physik, 46, pp. 435–453
+> 
+> Butcher J.C. (1965): On the Attainable Order of Runge-Kutta Methods, DOI 10.2307/2003670 
+>
+> Hairer E., Norsett S.P., Wanner G. (1993): Solving Ordinary Differential Equations I: Nonstiff Problems, ISBN 978-3-540-56670-0
+>  + Chapter II.4: Automatic Step Size Control
+>  + Chapter II.4: Starting Step Size
+>  + Chapter II.5: Embedded Formulas of Order 5
+>
+> Shampine L., Reichelt M. (1997): The MATLAB ODE Suite, DOI 10.1137/S1064827594276424
+
+### Velocity Verlet method (`vv2()`)
 

@@ -189,16 +189,16 @@ Since the error is dependent of the time step, one way to reduce this error is t
 It achieves this by computing the $k_i$ **stage derivaties** as follows:
 
 ```math
-k_1 = \Delta t f(t, x)
+k_1 = f(t, x)
 ```
 ```math
-k_2 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \frac{k_1}{2} \right)
+k_2 = f \left( t + \frac{\Delta t}{2}, x + \frac{\Delta t }{2} k_1 \right)
 ```
 ```math
-k_3 = \Delta t f \left( t + \frac{\Delta t}{2}, x + \frac{k_2}{2} \right)
+k_3 = f \left( t + \frac{\Delta t}{2}, x + \frac{\Delta t }{2} k_2 \right)
 ```
 ```math
-k_4 = \Delta t f(t + \Delta t, x + k_3)
+k_4 = f(t + \Delta t, x + \Delta t k_3)
 ```
 
 and using them to compute the final result:

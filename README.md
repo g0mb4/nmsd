@@ -2,7 +2,7 @@
 
 Numerical solutions of the Mass-Spring-Damper model.
 
-![msd](msd.png)
+![msd](img/msd.png)
 
 ## Quickstart
 

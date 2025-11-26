@@ -15,16 +15,6 @@ const double v0 = 1;    // initial velocity, m/s
 // Mass-Spring-Damper
 void msd(double t, double *x, double *f)
 {
-    // mx'' + kx' + cx = 0
-    //
-    // X' = f(t, X)
-    //
-    // X1 = x
-    // X2 = x'
-    //
-    // X1' = X2
-    // X2' = (1/m) (-k * X2 - c * X1)
-
     f[0] = x[1];
     f[1] = (1/m) * (-k*x[1] - c*x[0]);
 }
@@ -74,36 +64,36 @@ void rk4(double t, double *x, double dt)
 
     // k1
     msd(t, x, f);
-    k10 = dt * f[0];
-    k11 = dt * f[1];
+    k10 = f[0];
+    k11 = f[1];
 
     // k2
-    xk[0] = x[0] + k10/2;
-    xk[1] = x[1] + k11/2;
+    xk[0] = x[0] + (dt/2.0)*k10;
+    xk[1] = x[1] + (dt/2.0)*k11;
 
     msd(t + dt/2, xk, f);
-    k20 = dt * f[0];
-    k21 = dt * f[1];
+    k20 = f[0];
+    k21 = f[1];
 
     // k3
-    xk[0] = x[0] + k20/2;
-    xk[1] = x[1] + k21/2;
+    xk[0] = x[0] + (dt/2.0)*k20;
+    xk[1] = x[1] + (dt/2.0)*k21;
 
     msd(t + dt/2, xk, f);
-    k30 = dt * f[0];
-    k31 = dt * f[1];
+    k30 = f[0];
+    k31 = f[1];
 
     // k4
-    xk[0] = x[0] + k30;
-    xk[1] = x[1] + k31;
+    xk[0] = x[0] + dt*k30;
+    xk[1] = x[1] + dt*k31;
 
     msd(t + dt, xk, f);
-    k40 = dt * f[0];
-    k41 = dt * f[1];
+    k40 = f[0];
+    k41 = f[1];
 
     // solution
-    x[0] += k10/6 + k20/3 + k30/3 + k40/6;
-    x[1] += k11/6 + k21/3 + k31/3 + k41/6;
+    x[0] += dt * (k10/6 + k20/3 + k30/3 + k40/6);
+    x[1] += dt * (k11/6 + k21/3 + k31/3 + k41/6);
 }
 
 // Velocity-Verlet (2nd order)
@@ -117,7 +107,7 @@ double vv2(double t, double *x, double dt)
     msd(t, x, f);
 
     // update velocity (half-step)
-    vh = f[0] +  dt/2.0 * f[1];
+    vh = f[0] + dt/2.0 * f[1];
     x[1] = vh;
 
     // update position
@@ -247,72 +237,72 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     for (int tries = 0; tries < 100; ++tries) {
         // k1
         msd(*t, x, f);
-        k10 = dt * f[0];
-        k11 = dt * f[1];
+        k10 = f[0];
+        k11 = f[1];
 
         // k2
-        xk[0] = x[0] + a21 * k10;
-        xk[1] = x[1] + a21 * k11;
+        xk[0] = x[0] + dt * a21 * k10;
+        xk[1] = x[1] + dt * a21 * k11;
 
-        msd(*t + c2 * dt, xk, f);
-        k20 = dt * f[0];
-        k21 = dt * f[1];
+        msd(*t + c2*dt, xk, f);
+        k20 = f[0];
+        k21 = f[1];
 
         // k3
-        xk[0] = x[0] + (a31 * k10 + a32 * k20);
-        xk[1] = x[1] + (a31 * k11 + a32 * k21);
+        xk[0] = x[0] + dt * (a31 * k10 + a32 * k20);
+        xk[1] = x[1] + dt * (a31 * k11 + a32 * k21);
 
         msd(*t + c3 * dt, xk, f);
-        k30 = dt * f[0];
-        k31 = dt * f[1];
+        k30 = f[0];
+        k31 = f[1];
 
         // k4
-        xk[0] = x[0] + (a41 * k10 + a42 * k20 + a43 * k30);
-        xk[1] = x[1] + (a41 * k11 + a42 * k21 + a43 * k31);
+        xk[0] = x[0] + dt * (a41 * k10 + a42 * k20 + a43 * k30);
+        xk[1] = x[1] + dt * (a41 * k11 + a42 * k21 + a43 * k31);
 
         msd(*t + c4 * dt, xk, f);
-        k40 = dt * f[0];
-        k41 = dt * f[1];
+        k40 = f[0];
+        k41 = f[1];
 
         // k5
-        xk[0] = x[0] + (a51 * k10 + a52 * k20 + a53 * k30 + a54 * k40);
-        xk[1] = x[1] + (a51 * k11 + a52 * k21 + a53 * k31 + a54 * k41);
+        xk[0] = x[0] + dt * (a51 * k10 + a52 * k20 + a53 * k30 + a54 * k40);
+        xk[1] = x[1] + dt * (a51 * k11 + a52 * k21 + a53 * k31 + a54 * k41);
 
         msd(*t + c5 * dt, xk, f);
-        k50 = dt * f[0];
-        k51 = dt * f[1];
+        k50 = f[0];
+        k51 = f[1];
 
         // k6
-        xk[0] = x[0] + (a61 * k10 + a62 * k20 + a63 * k30
-                        + a64 * k40 + a65 * k50);
-        xk[1] = x[1] + (a61 * k11 + a62 * k21 + a63 * k31
-                        + a64 * k41 + a65 * k51);
+        xk[0] = x[0] + dt * (a61 * k10 + a62 * k20 + a63 * k30
+                             + a64 * k40 + a65 * k50);
+        xk[1] = x[1] + dt * (a61 * k11 + a62 * k21 + a63 * k31
+                             + a64 * k41 + a65 * k51);
 
         msd(*t + c6 * dt, xk, f);
-        k60 = dt * f[0];
-        k61 = dt * f[1];
+        k60 = f[0];
+        k61 = f[1];
 
         // k7
-        xk[0] = x[0] + (a71 * k10 + a72 * k20 + a73 * k30
+        xk[0] = x[0] + dt * (a71 * k10 + a72 * k20 + a73 * k30
                         + a74 * k40 + a75 * k50 + a76 * k60);
-        xk[1] = x[1] + (a71 * k11 + a72 * k21 + a73 * k31
+        xk[1] = x[1] + dt * (a71 * k11 + a72 * k21 + a73 * k31
                         + a74 * k41 + a75 * k51 + a76 * k61);
 
         msd(*t + c7 * dt, xk, f);
-        k70 = dt * f[0];
-        k71 = dt * f[1];
+        k70 = f[0];
+        k71 = f[1];
 
         // fifth-order solution
-        x0 = x[0] + b1 * k10 + b2 * k20 + b3 * k30 + b4 * k40
-             + b5 * k50 + b6 * k60 + b7 * k70;
-        x1 = x[1] + b1 * k11 + b2 * k21 + b3 * k31 + b4 * k41
-             + b5 * k51 + b6 * k61 + b7 * k71;
+        x0 = x[0] + dt * (b1 * k10 + b2 * k20 + b3 * k30 + b4 * k40
+                          + b5 * k50 + b6 * k60 + b7 * k70);
+        x1 = x[1] + dt * (b1 * k11 + b2 * k21 + b3 * k31 + b4 * k41
+                          + b5 * k51 + b6 * k61 + b7 * k71);
 
         // fourth-order solution (error estimation)
-        x0hat = x[0] + b1hat * k10 + b2hat * k20 + b3hat * k30 + b4hat * k40
-                + b5hat * k50 + b6hat * k60 + b7hat * k70;
-        x1hat = x[1] + b1hat * k11 + b2hat * k21 + b3hat * k31 + b4hat * k41
-                + b5hat * k51 + b6hat * k61 + b7hat * k71;
+        x0hat = x[0] + dt * (b1hat * k10 + b2hat * k20 + b3hat * k30
+                             + b4hat * k40 + b5hat * k50 + b6hat * k60 + b7hat * k70);
+        x1hat = x[1] + dt * (b1hat * k11 + b2hat * k21 + b3hat * k31
+                             + b4hat * k41 + b5hat * k51 + b6hat * k61 + b7hat * k71);
 
         // automatic step size control
         sc[0] = atol + MAX(x[0],x0)*rtol;

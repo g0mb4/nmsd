@@ -446,9 +446,18 @@ The **Velocity-Verlet method** can solve the system using the following steps:
 
 1) Calculate acceleration in the current time step
 2) Update the half-step velocity
+```math
+  v \left(t + \frac{1}{2} \Delta t \right) = v(t) + \frac{1}{2}a(t) \Delta t
+```
 3) Update position with the half-step velocity
+```math
+  x (t + \Delta t) = x(t) + v \left(t + \frac{1}{2} \Delta t \right) \Delta t
+```
 4) Calculate new acceleration
 5) Update the full-step velocity
+```math
+  v (t + \Delta t) = v \left(t + \frac{1}{2} \Delta t \right) + \frac{1}{2}a(t + \Delta t) \Delta t
+```
 
 This method is a **second order** method.
 

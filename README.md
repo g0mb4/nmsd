@@ -465,4 +465,12 @@ It is often used in Discrete Element Method and Molecular Dynamics simulations d
 >
 > Vyas D.R., Ottino J.M., Lueptow R.M., Umbanhowar P.B. (2025): Improved velocity-Verlet algorithm for the discrete element method, DOI 10.1016/j.cpc.2025.109524
 
+## Results
+
+The results of the presented methods can be seen in the following image, where the **displacement** $x(t)$ and the **absolute error** $|an(t) - \bar{x}(t)|$ are shown.
+
+![msd](img/res.png)
+
+
+
 

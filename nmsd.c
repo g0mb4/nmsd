@@ -129,7 +129,7 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     static const double a31 = 3/40.0;
     static const double a32 = 9/40.0;
 
-    static const double a41 = 44/55.0;
+    static const double a41 = 44/45.0;
     static const double a42 = -56/15.0;
     static const double a43 = 32/9.0;
 
@@ -207,8 +207,8 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     if (dt == 0) {
         msd(*t, x, f0);
 
-        d0 = sqrt(x[0]*x[0] + x[1]*x[1]);
-        d1 = sqrt(f0[0]*f0[0] + f0[1]*f0[1]);
+        d0 = sqrt(x[0] * x[0] + x[1] * x[1]);
+        d1 = sqrt(f0[0] * f0[0] + f0[1] * f0[1]);
 
         if (d0 < 1e-5 || d1 < 1e-5)
             dt0 = 1e-6;
@@ -221,8 +221,8 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
         msd(*t + dt0, xf1, f1);
 
         d2 = sqrt(
-            ((f1[0]-f0[0]) * (f1[0]-f0[0]))
-          + ((f1[1]-f0[1]) * (f1[1]-f0[1]))
+            ((f1[0] - f0[0]) * (f1[0] - f0[0]))
+          + ((f1[1] - f0[1]) * (f1[1] - f0[1]))
         );
 
         if (MAX(d1, d2) <= 1e-15)

@@ -39,7 +39,7 @@ double an(double t)
 }
 
 // Explicit Eluer (1st order)
-double ee1(double t, double *x, double dt)
+void ee1(double t, double *x, double dt)
 {
     double f[2];
 
@@ -97,7 +97,7 @@ void rk4(double t, double *x, double dt)
 }
 
 // Velocity-Verlet (2nd order)
-double vv2(double t, double *x, double dt)
+void vv2(double t, double *x, double dt)
 {
     // temporary variables
     double f[2];
@@ -108,13 +108,13 @@ double vv2(double t, double *x, double dt)
 
     // update velocity (half-step)
     vh = f[0] + dt/2.0 * f[1];
-    x[1] = vh;
 
     // update position
-    x[0] +=  dt * x[1];
+    x[0] += dt * vh;
+    x[1] = vh;
 
     // calculate new acceleration
-    msd(t, x, f);
+    msd(t + dt, x, f);
 
     // update velocity
     x[1] = vh + dt/2.0 * f[1];

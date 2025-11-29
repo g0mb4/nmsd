@@ -288,7 +288,7 @@ The difference between the result of the methods yields **the local error** and 
   + if the solution is accepted: increase the step size, to avoid unnecessary computation,
   + otherwise: decrease the step size and rerun the calculation.
     
-This way we directly control the local error.
+This way we directly control the error by ensuring it remains below the combined threshold defined by the **absolute tolerance** and the **relative tolerance**.
 
 The **Dormand–Prince method** is a **fifth-order** method with a **fourth-order** error estimation. The **Butcher tableau** of the method:
 

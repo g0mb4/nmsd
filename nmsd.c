@@ -5,12 +5,12 @@
 #define MAX(a,b)    (a) > (b) ? (a) : (b)
 #define MIN(a,b)    (a) < (b) ? (a) : (b)
 
-const double m = 1;     // mass, kg
-const double k = 1;     // damping coefficient, Ns/m
-const double c = 0.1;   // stiffness of the spring, N/m
+double m = 1;     // mass, kg
+double k = 1;     // damping coefficient, Ns/m
+double c = 0.1;   // stiffness of the spring, N/m
 
-const double x0 = 0;    // initial displacement, m
-const double v0 = 1;    // initial velocity, m/s
+double x0 = 0;    // initial displacement, m
+double v0 = 1;    // initial velocity, m/s
 
 // Mass-Spring-Damper
 void msd(double t, double *x, double *f)
@@ -22,18 +22,20 @@ void msd(double t, double *x, double *f)
 // Analitic solution
 double an(double t)
 {
-    static const double B = k/(2.0 * m);
-    static const double O2 = c/m;
+    double B, O2, D, L1, L2, c1, c2;
 
-    static const double D = B*B - O2;
+    B = k/(2.0 * m);
+    O2 = c/m;
+
+    D = B*B - O2;
     // assume real solutions
     assert(D >= 0);
 
-    const double L1 = -B + sqrt(D);
-    const double L2 = -B - sqrt(D);
+    L1 = -B + sqrt(D);
+    L2 = -B - sqrt(D);
 
-    const double c2 = (v0 - x0 * L1) / (-L1 + L2);
-    const double c1 = x0 - c2;
+    c2 = (v0 - x0 * L1) / (-L1 + L2);
+    c1 = x0 - c2;
 
     return c1 * exp(L1 * t) + c2 * exp(L2 * t);
 }
@@ -124,55 +126,55 @@ void vv2(double t, double *x, double dt)
 void dp54(double *t, double *x, double *dtinit, double atol, double rtol, double frac)
 {
     // Butcher tableau values
-    static const double a21 = 1/5.0;
+    double a21 = 1/5.0;
 
-    static const double a31 = 3/40.0;
-    static const double a32 = 9/40.0;
+    double a31 = 3/40.0;
+    double a32 = 9/40.0;
 
-    static const double a41 = 44/45.0;
-    static const double a42 = -56/15.0;
-    static const double a43 = 32/9.0;
+    double a41 = 44/45.0;
+    double a42 = -56/15.0;
+    double a43 = 32/9.0;
 
-    static const double a51 = 19372/6561.0;
-    static const double a52 = -25360/2187.0;
-    static const double a53 = 64448/6561.0;
-    static const double a54 = -212/729.0;
+    double a51 = 19372/6561.0;
+    double a52 = -25360/2187.0;
+    double a53 = 64448/6561.0;
+    double a54 = -212/729.0;
 
-    static const double a61 = 9017/3186.0;
-    static const double a62 = -355/33.0;
-    static const double a63 = 46732/5247.0;
-    static const double a64 = 49/176.0;
-    static const double a65 = -5103/18656.0;
+    double a61 = 9017/3186.0;
+    double a62 = -355/33.0;
+    double a63 = 46732/5247.0;
+    double a64 = 49/176.0;
+    double a65 = -5103/18656.0;
 
-    static const double a71 = 35/384.0;
-    static const double a72 = 0.0;
-    static const double a73 = 500/1113.0;
-    static const double a74 = 125/192.0;
-    static const double a75 = -2187/6784.0;
-    static const double a76 = 11/84.0;
+    double a71 = 35/384.0;
+    double a72 = 0.0;
+    double a73 = 500/1113.0;
+    double a74 = 125/192.0;
+    double a75 = -2187/6784.0;
+    double a76 = 11/84.0;
 
-    static const double b1 = 35/384.0;
-    static const double b2 = 0.0;
-    static const double b3 = 500/1113.0;
-    static const double b4 = 125/192.0;
-    static const double b5 = -2187/6784.0;
-    static const double b6 = 11/84.0;
-    static const double b7 = 0.0;
+    double b1 = 35/384.0;
+    double b2 = 0.0;
+    double b3 = 500/1113.0;
+    double b4 = 125/192.0;
+    double b5 = -2187/6784.0;
+    double b6 = 11/84.0;
+    double b7 = 0.0;
 
-    static const double b1hat = 5179/57600.0;
-    static const double b2hat = 0.0;
-    static const double b3hat = 7571/16695.0;
-    static const double b4hat = 393/640.0;
-    static const double b5hat = -92097/339200.0;
-    static const double b6hat = 187/2100.0;
-    static const double b7hat = 1/40.0;
+    double b1hat = 5179/57600.0;
+    double b2hat = 0.0;
+    double b3hat = 7571/16695.0;
+    double b4hat = 393/640.0;
+    double b5hat = -92097/339200.0;
+    double b6hat = 187/2100.0;
+    double b7hat = 1/40.0;
 
-    static const double c2 = 1/5.0;
-    static const double c3 = 3/10.0;
-    static const double c4 = 4/5.0;
-    static const double c5 = 8/9.0;
-    static const double c6 = 1.0;
-    static const double c7 = 1.0;
+    double c2 = 1/5.0;
+    double c3 = 3/10.0;
+    double c4 = 4/5.0;
+    double c5 = 8/9.0;
+    double c6 = 1.0;
+    double c7 = 1.0;
 
     // temporary variables
     double f[2];
@@ -341,8 +343,8 @@ int main(void)
     double dt = 0.1;
     double tend = 10;
     double dtdp54 = 0;
-    double atol = 1e-10;
-    double rtol = 6e-7;
+    double atol = 7e-10;
+    double rtol = 7e-7;
     double frac = 0.9;
 
     xee[0] = x0;

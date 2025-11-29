@@ -121,7 +121,7 @@ void vv2(double t, double *x, double dt)
 }
 
 // Dormand–Prince (5th order with 4th order error estimation)
-void dp54(double *t, double *x, double rtol, double *dtinit)
+void dp54(double *t, double *x, double *dtinit, double atol, double rtol, double frac)
 {
     // Butcher tableau values
     static const double a21 = 1/5.0;
@@ -198,10 +198,8 @@ void dp54(double *t, double *x, double rtol, double *dtinit)
     // automatic step size control
     double dt = *dtinit;
     double dtopt = 0;
-    const double atol = rtol / 1000.0;    // practical value
     double sc[2];
     double err;
-    const double frac = 0.9;  // practical value
 
     // starting step estimation
     if (dt == 0) {
@@ -343,7 +341,9 @@ int main(void)
     double dt = 0.1;
     double tend = 10;
     double dtdp54 = 0;
+    double atol = 1e-10;
     double rtol = 6e-7;
+    double frac = 0.9;
 
     xee[0] = x0;
     xee[1] = v0;
@@ -386,7 +386,7 @@ int main(void)
         fprintf(fdp54, "%G; %G; %G; %G\n",
                         t, a, xdp[0], edp);
 
-        dp54(&t, xdp, rtol, &dtdp54);
+        dp54(&t, xdp, &dtdp54, atol, rtol, frac);
     }
 
     fclose(ffixed);

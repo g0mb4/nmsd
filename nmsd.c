@@ -3,7 +3,7 @@
  *
  * Copyright (c) 2025, Tóth János
  * SPDX-License-Identifier: MIT
-*/
+ */
 
 #include <assert.h>
 #include <math.h>

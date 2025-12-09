@@ -1,3 +1,10 @@
+/*
+ * Numerical solutions of the Mass-Spring-Damper model.
+ *
+ * Copyright (c) 2025, Tóth János
+ * SPDX-License-Identifier: MIT
+*/
+
 #include <assert.h>
 #include <math.h>
 #include <stdio.h>

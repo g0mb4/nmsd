@@ -13,8 +13,8 @@
 #define MIN(a,b)    (a) < (b) ? (a) : (b)
 
 double m = 1;     // mass, kg
-double k = 1;     // damping coefficient, Ns/m
-double c = 0.1;   // stiffness of the spring, N/m
+double c = 1;     // damping coefficient, Ns/m
+double k = 0.1;   // stiffness of the spring, N/m
 
 double x0 = 0;    // initial displacement, m
 double v0 = 1;    // initial velocity, m/s
@@ -23,7 +23,7 @@ double v0 = 1;    // initial velocity, m/s
 void msd(double t, double *x, double *f)
 {
     f[0] = x[1];
-    f[1] = (1/m) * (-k*x[1] - c*x[0]);
+    f[1] = (1/m) * (-c*x[1] - k*x[0]);
 }
 
 // Analitic solution
@@ -31,8 +31,8 @@ double an(double t)
 {
     double B, O2, D, L1, L2, c1, c2;
 
-    B = k/(2.0 * m);
-    O2 = c/m;
+    B = c/(2.0 * m);
+    O2 = k/m;
 
     D = B*B - O2;
     // assume real solutions

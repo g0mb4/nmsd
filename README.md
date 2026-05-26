@@ -32,9 +32,9 @@ The choice of the "cryptic," old style is deliberate. It serves three purposes:
 The Mass-Spring-Damper model describes a 1-degree-of-freedom mechanical system consisting of a mass, a spring and a damper.
 The equation of motion of the unforced system:
 ```math
-m\ddot{x} + k\dot{x} + cx = 0
+m\ddot{x} + c\dot{x} + kx = 0
 ```
-where $m$ is the **mass** $k$ is the **damping coefficient** and $c$ is the **stiffness of the spring**. To solve this equation, we have to find the $x(t)$ **displacement from the equilibrium position**.
+where $m$ is the **mass** $c$ is the **damping coefficient** and $k$ is the **stiffness of the spring**. To solve this equation, we have to find the $x(t)$ **displacement from the equilibrium position**.
 
 The governing equation is a **2nd order linear homogeneous differential equation with constant coefficients**.
 There are many ways to solve this equation numerically, only a few will be presented in this document and their implementation can be found in the accompanying *nmsd.c* file.
@@ -43,7 +43,7 @@ There are many ways to solve this equation numerically, only a few will be prese
 
 We can solve this equation analytically, this will be the base-line for the comparison of different numerical methods.
 
-Let's introduce the **damping constant** $\beta = \frac{k}{2m}$ and the **natural frequency** $\omega = \sqrt{\frac{c}{m}}$ and assume that the solution $x(t)$ is in a form of $e^{\lambda t}$.
+Let's introduce the **damping constant** $\beta = \frac{c}{2m}$ and the **natural frequency** $\omega = \sqrt{\frac{k}{m}}$ and assume that the solution $x(t)$ is in a form of $e^{\lambda t}$.
 We can rewrite the equation:
 ```math
 \lambda^2 e^{\lambda t} + 2 \beta \lambda e^{\lambda t} + \omega^2 e^{\lambda t} = 0
